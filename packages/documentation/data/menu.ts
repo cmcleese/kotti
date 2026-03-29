@@ -21,6 +21,7 @@ import {
 	KtLine,
 	KtModal,
 	KtNavbar,
+	KtNotificationCentre,
 	KtPagination,
 	KtPopover,
 	KtStandardTable,
@@ -59,10 +60,7 @@ export type Section = {
 	title: string | null
 }
 
-const makeComponentMenuItem = (component: {
-	meta: Kotti.Meta<unknown>
-	name: string
-}): SubsectionPage => ({
+const makeComponentMenuItem = (component: any): SubsectionPage => ({
 	label: startCase(component.name.replace(/^Kt/, '')),
 	path: kebabCase(component.name.replace(/^Kt/, '')),
 	tags: [
@@ -173,6 +171,7 @@ export const menu: Array<Section> = [
 					makeComponentMenuItem(KtLine),
 					{ label: 'Loadings', path: 'loadings', tags: [Tag.CSS] },
 					makeComponentMenuItem(KtModal),
+					makeComponentMenuItem(KtNotificationCentre),
 					makeComponentMenuItem(KtPagination),
 					makeComponentMenuItem(KtPopover),
 					makeComponentMenuItem(KtStandardTable),
