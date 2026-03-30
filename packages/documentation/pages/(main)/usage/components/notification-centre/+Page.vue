@@ -9,9 +9,7 @@
 		<h2>Interactive Example</h2>
 
 		<CodePreview
-			code='
-				<KtNotificationCentre />
-			'
+			code='<KtNotificationCentre />'
 			language="vue-html"
 		>
 			<KtNotificationCentre />
