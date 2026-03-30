@@ -24,7 +24,6 @@ export namespace KottiNotificationCentre {
 		canWait: string
 		insight: string
 		urgentCount: number
-		waitCount: number
 	}
 
 	export const propsSchema = z.object({

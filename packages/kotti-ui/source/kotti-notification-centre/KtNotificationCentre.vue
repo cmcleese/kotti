@@ -1,7 +1,7 @@
 <template>
 	<div class="kt-notification-centre">
 		<!-- Trigger Button -->
-		<div ref="tippyTriggerRef" class="kt-notification-centre__trigger">
+		<div ref="tippyTriggerRef" class="kt-notification-centre__button">
 			<KtButton
 				:icon="Yoco.Icon.BELL"
 				type="default"
@@ -32,7 +32,7 @@
 				<!-- Notification List -->
 				<div
 					ref="tippyBodyRef"
-					class="kt-notification-centre__body"
+					class="kt-notification-centre__list"
 				>
 					<!-- Summary Section -->
 					<div
@@ -151,7 +151,6 @@ export default defineComponent({
 					canWait: 'No new notifications to summarize.',
 					insight: 'All caught up!',
 					urgentCount: 0,
-					waitCount: 0,
 				}
 				return
 			}
@@ -213,7 +212,6 @@ export default defineComponent({
 					canWait: 'Unable to connect to AI service.',
 					insight: 'Summary generation failed',
 					urgentCount: 0,
-					waitCount: 0,
 				}
 			} finally {
 				summaryLoading.value = false
@@ -321,12 +319,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .kt-notification-centre {
 	display: inline-block;
-
-	&__trigger {
+	// trigger button
+	&__button {
 		position: relative;
 		display: inline-block;
 	}
-
+	// new notification badge on button
 	&__badge {
 		position: absolute;
 		top: -4px;
@@ -336,12 +334,12 @@ export default defineComponent({
 		justify-content: center;
 		width: 16px;
 		height: 16px;
-		font-size: 10px;
+		font-size: 0.7em;
 		color: white;
 		background-color: var(--red-50);
 		border-radius: 50%;
 	}
-
+	// tippy dropdown content
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -350,7 +348,7 @@ export default defineComponent({
 		background-color: var(--ui-background);
 	}
 
-	/* Fixed header so it doesn't disappear when scrolling through long lists */
+	// Content Header
 	&__header {
 		display: flex;
 		flex-shrink: 0;
@@ -375,20 +373,22 @@ export default defineComponent({
 		&-badge {
 			padding: 2px 8px;
 			margin-left: var(--unit-3);
-			font-size: 10px;
+			font-size: 0.7em;
 			color: white;
 			background-color: var(--red-50);
 			border-radius: 10px;
 		}
 	}
 
-	&__body {
+	// Notification List
+	&__list {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
 		overflow-y: auto;
 	}
 
+	// AI Summary Section
 	&__summary {
 		display: flex;
 		flex-direction: column;
@@ -417,7 +417,7 @@ export default defineComponent({
 			display: inline-flex;
 			flex-shrink: 0;
 			padding: 0 6px;
-			font-size: 10px;
+			font-size: 0.625em;
 			font-weight: 700;
 			line-height: normal;
 			color: white;
@@ -465,7 +465,7 @@ export default defineComponent({
 	}
 }
 
-// Notification row styles
+// Notification row 
 .kt-notification-centre-item {
 	display: flex;
 	align-items: flex-start;
@@ -531,7 +531,7 @@ export default defineComponent({
 	&__type-badge {
 		flex-shrink: 0;
 		padding: 1px 4px;
-		font-size: 10px;
+		font-size: 0.625em;
 		font-weight: 700;
 		text-transform: uppercase;
 		border-radius: 3px;
