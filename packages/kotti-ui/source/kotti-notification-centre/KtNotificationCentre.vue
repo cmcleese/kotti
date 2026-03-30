@@ -183,7 +183,7 @@ export default defineComponent({
 	&__content {
 		display: flex;
 		flex-direction: column;
-		width: 480px;
+		max-width: 480px;
 		max-height: 480px;
 		background-color: var(--ui-background);
 	}
@@ -214,14 +214,13 @@ export default defineComponent({
 	}
 }
 
-/* Individual notification rows with some nice hover effects */
+// Notification row styles
 .kt-notification-centre-item {
 	display: flex;
 	align-items: center;
 	padding: var(--unit-4) var(--unit-4) var(--unit-4) var(--unit-2);
 	cursor: pointer;
 	border-bottom: 1px solid var(--ui-01);
-	/* Subtle transition to make the hover effect feel a bit more premium */
 	transition: background-color 0.2s;
 
 	&:hover {
