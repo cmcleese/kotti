@@ -122,7 +122,7 @@ export default defineComponent({
 				// By default Tippy limits width to 350px, we disable that to use our own width
 				maxWidth: 'none',
 				placement: 'bottom-end',
-				theme: 'kt-light-border',
+				theme: 'kt-light-border kt-notification-centre',
 				trigger: 'manual',
 			})),
 		)
@@ -155,6 +155,15 @@ export default defineComponent({
 	},
 })
 </script>
+
+<style lang="scss">
+/* We need a global style to override Tippy's default content padding */
+.tippy-box[data-theme~='kt-notification-centre'] {
+	.tippy-content {
+		padding: 0;
+	}
+}
+</style>
 
 <style lang="scss" scoped>
 .kt-notification-centre {
@@ -196,7 +205,7 @@ export default defineComponent({
 		padding: var(--unit-4);
 		font-weight: bold;
 		border-bottom: 1px solid var(--ui-01);
-
+		background-color: var(--ui-background-shade);
 		&-badge {
 			padding: 2px 8px;
 			margin-left: var(--unit-3);
@@ -264,14 +273,14 @@ export default defineComponent({
 
 	&__content {
 		margin-top: var(--unit-1);
-		font-size: 0.8em;
+		font-size: 0.85em;
 		line-height: 1.4;
 		color: var(--text-02);
 	}
 
 	&__timestamp {
 		margin-left: var(--unit-3);
-		font-size: 0.75em;
+		font-size: 0.80em;
 		white-space: nowrap;
 		color: var(--text-03);
 	}

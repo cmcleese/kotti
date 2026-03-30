@@ -6,10 +6,11 @@ set -euo pipefail
 rm -rf dist
 
 # build cjs (common JS) and mjs (esm)
-tsc --build ./tsconfig.cjs.json ./tsconfig.mjs.json
+bun x tsc --build ./tsconfig.cjs.json ./tsconfig.mjs.json
 
 # generate icon font
-node --unhandled-rejections=strict dist/mjs/generate.js
+mkdir -p fonts
+bun run dist/mjs/generate.js
 rm -f dist/{cjs,mjs}/generate.*
 
 # hack: add cjs file extensions since package is type module
