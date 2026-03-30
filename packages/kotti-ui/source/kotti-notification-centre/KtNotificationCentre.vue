@@ -178,23 +178,20 @@ export default defineComponent({
 									parts: [
 										{
 											text: `You are an assistant in an industrial manufacturing notification centre.
-Analyze these unread notifications and identify patterns and relationships between them.
+												Analyze these unread notifications and identify patterns and relationships between them.
 
-Return ONLY a valid JSON object, no markdown, no backticks, with this exact shape:
-{
-  "insight": "one sentence (max 20 words) grouping urgent items and surfacing any connections between them",
-  "canWait": "one short sentence summarising the low priority items",
-  "urgentCount": number of unread items with type 'error' or 'warning',
-  "waitCount": number of unread items with type 'info'
-}
+												Return ONLY valid JSON with this exact shape:
+												{
+													"insight": "one sentence max 20 words — group urgent items and surface connections between them",
+													"canWait": "one sentence max 15 words — summarize the low priority items",
+													"urgentCount": <count of unread items with type error or warning>
+												}
 
-Rules:
-- insight should highlight connections e.g. if a machine alert and an order delay are related, say so
-- never just list items — always group or connect them
-- ignore all read notifications entirely
-- keep both sentences under 20 words
+												Rules:
+												- insight must connect related items, never just list them
+												- ignore all read notifications entirely
 
-Notifications: ${JSON.stringify(context)}`,
+												Notifications: ${JSON.stringify(context)}`,
 										},
 									],
 								},
