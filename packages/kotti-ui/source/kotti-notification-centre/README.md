@@ -5,9 +5,10 @@ A Notification Centre component built within the Kotti UI library. This componen
 
 ## Review and Test
 
-1. **Open the Overlay**: Click the bell icon in the navigation to open the notification centre.
-2. **AI Analysis**: Upon opening, the component automatically analyzes unread notifications and generates a summary targeting critical insights.
-3. **Toggle Status**: Click any notification row to toggle between 'Read' and 'Unread'. The AI summary will stay persistent for the current session.
+1. **API Setup**: Ensure you have a valid Google Gemini API key. Add it to your `.env` file (copy from `.env.example`) as `VITE_GEMINI_API_KEY=your_key_here` in the `packages/kotti-ui` directory.
+2. **Open the Overlay**: Click the bell icon in the navigation to open the notification centre.
+3. **AI Analysis**: Upon opening, the component automatically analyzes unread notifications and generates a summary targeting critical insights.
+4. **Toggle Status**: Click any notification row to toggle between 'Read' and 'Unread'. The AI summary will stay persistent for the current session.
 
 ## Design and Architecture
 
