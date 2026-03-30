@@ -1,6 +1,7 @@
 # 🔔 Kotti Notification Centre
 
 A Notification Centre component built within the Kotti UI library. This component features AI-powered summarization to help users prioritize critical industrial alerts.
+![Kotti Notification Centre](screenshot.png)
 
 ## Review and Test
 

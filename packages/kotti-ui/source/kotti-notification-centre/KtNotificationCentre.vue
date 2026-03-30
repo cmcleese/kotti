@@ -196,14 +196,17 @@ export default defineComponent({
 									],
 								},
 							],
+							generationConfig: {
+								response_mime_type: 'application/json',
+							},
 						}),
 					},
 				)
 				const data = await response.json()
 				const textResult = data.candidates[0].content.parts[0].text
-				summary.value = JSON.parse(
+					summary.value = JSON.parse(
 					textResult,
-				) as KottiNotificationCentre.SummaryResponse
+					) as KottiNotificationCentre.SummaryResponse
 			} catch (error) {
 				// set the summary to the error message
 				summary.value = {
