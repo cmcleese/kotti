@@ -141,7 +141,7 @@ export default defineComponent({
 		const summaryLoading = ref(false)
 
 		const summarizeNotifications = async (
-			notifications_to_summarize: KottiNotificationCentre.Notification[] | null,
+			notifications_to_summarize: KottiNotificationCentre.Notification[],
 		) => {
 			const unread = (notifications_to_summarize ?? []).filter(
 				(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
@@ -196,9 +196,6 @@ export default defineComponent({
 									],
 								},
 							],
-							generationConfig: {
-								response_mime_type: 'application/json',
-							},
 						}),
 					},
 				)
@@ -248,8 +245,11 @@ export default defineComponent({
 				onShow: () => {
 					isTippyOpen.value = true
 					// Generate summary when the dropdown opens
-					if (!summary.value && !summaryLoading.value) {
-						void summarizeNotifications(notifications.value)
+					const unreadCount = notifications.value.filter(
+						(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
+					).length
+					if (!summaryLoading.value && unreadCount > 0) {
+						summarizeNotifications(notifications.value)
 					}
 				},
 				// By default Tippy limits width to 350px, we disable that to use our own width
