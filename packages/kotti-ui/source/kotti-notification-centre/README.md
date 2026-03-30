@@ -1,8 +1,9 @@
 # 🔔 Kotti Notification Centre
 
 A Notification Centre component built within the Kotti UI library. This component features AI-powered summarization to help users prioritize critical industrial alerts.
-![Kotti Notification Centre](screenshot.png)
-
+<p align="center">
+	<img src="screenshot.png" height="500">
+</p>
 ## Review and Test
 
 1. **API Setup**: Ensure you have a valid Google Gemini API key. Add it to your `.env` file (copy from `.env.example`) as `VITE_GEMINI_API_KEY=your_key_here` in the `packages/kotti-ui` directory.
