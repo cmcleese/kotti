@@ -20,6 +20,13 @@ export namespace KottiNotificationCentre {
 		type: 'info' | 'warning' | 'error'
 	}
 
+	export interface SummaryResponse {
+		canWait: string
+		insight: string
+		urgentCount: number
+		waitCount: number
+	}
+
 	export const propsSchema = z.object({
 		isOpen: z.boolean().default(false),
 	})

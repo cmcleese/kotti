@@ -4,6 +4,7 @@ dist/
 node_modules/
 packages/kotti-ui/report.*.html
 packages/yoco/fonts/
+.env
 *.log
 
 # vite config gets transpiled in-place for a short moment
