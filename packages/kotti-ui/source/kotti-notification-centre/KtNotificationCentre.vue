@@ -31,7 +31,7 @@
 
 				<!-- Notification List -->
 				<div
-					ref="tippyBodyRef"
+					v-if="notifications && notifications.length > 0"
 					class="kt-notification-centre__list"
 				>
 					<!-- Summary Section -->
@@ -94,6 +94,10 @@
 						</div>
 					</div>
 				</div>
+				<div v-else class="kt-notification-centre__empty-state">
+					<i class="yoco kt-notification-centre__empty-icon">bell</i>
+					<span>You're all caught up</span>
+				</div>
 			</template>
 		</div>
 	</div>
@@ -101,8 +105,7 @@
 
 <script lang="ts">
 import type { Instance } from 'tippy.js'
-import { delegate } from 'tippy.js'
-import { computed, defineComponent, onMounted, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 
 import { useTippy } from '@3yourmind/vue-use-tippy'
 import { Yoco } from '@3yourmind/yoco'
@@ -120,9 +123,7 @@ export default defineComponent({
 	props: makeProps(KottiNotificationCentre.propsSchema),
 	setup() {
 		const isTippyOpen = ref(false)
-		
-		// Ref for the notifications list body, used for Tippy delegation
-		const tippyBodyRef = ref<HTMLDivElement | null>(null)
+
 		// Refs for Tippy content
 		const tippyContentRef = ref<HTMLDivElement | null>(null)
 		// Ref for Tippy instance
@@ -131,7 +132,7 @@ export default defineComponent({
 		const tippyTriggerRef = ref<HTMLDivElement | null>(null)
 		// Notifications data
 		const notifications = ref<KottiNotificationCentre.Notification[]>(
-			mockNotifications as KottiNotificationCentre.Notification[],
+			mockNotifications as KottiNotificationCentre.Notification[]
 		)
 
 		const summary = ref<KottiNotificationCentre.SummaryResponse | null>(
@@ -140,9 +141,9 @@ export default defineComponent({
 		const summaryLoading = ref(false)
 
 		const summarizeNotifications = async (
-			notifications_to_summarize: KottiNotificationCentre.Notification[],
+			notifications_to_summarize: KottiNotificationCentre.Notification[] | null,
 		) => {
-			const unread = notifications_to_summarize.filter(
+			const unread = (notifications_to_summarize ?? []).filter(
 				(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
 			)
 			// check if there are any unread notifications
@@ -259,21 +260,6 @@ export default defineComponent({
 			})),
 		)
 
-		onMounted(() => {
-			if (tippyBodyRef.value) {
-				delegate(tippyBodyRef.value, {
-					content: (reference) => {
-						const isUnread = reference.classList.contains(
-							'kt-notification-centre-item--unread',
-						)
-						return isUnread ? 'Mark as Read' : 'Mark as Unread'
-					},
-					target: '.kt-notification-centre-item',
-					theme: 'kt-light-border',
-				})
-			}
-		})
-
 		return {
 			isTippyOpen,
 			KottiNotificationCentre,
@@ -281,7 +267,6 @@ export default defineComponent({
 			onClickTrigger: () => {
 				setIsTippyOpen(!isTippyOpen.value)
 			},
-			tippyBodyRef,
 			tippyContentRef,
 			tippyTriggerRef,
 			// Simplified summary state
@@ -290,16 +275,16 @@ export default defineComponent({
 			// Toggle notification read/unread status
 			toggleRead: (notification: KottiNotificationCentre.Notification) => {
 				notification.toggle =
-					notification.toggle === KottiNotificationCentre.Status.READ
-						? KottiNotificationCentre.Status.UNREAD
-						: KottiNotificationCentre.Status.READ
+				notification.toggle === KottiNotificationCentre.Status.READ
+				? KottiNotificationCentre.Status.UNREAD
+				: KottiNotificationCentre.Status.READ
 			},
 			// Track unread notifications count
 			unreadCount: computed(
 				() =>
-					notifications.value.filter(
-						(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
-					).length,
+				(notifications.value ?? []).filter(
+					(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
+				).length,
 			),
 			Yoco,
 		}
@@ -353,11 +338,11 @@ export default defineComponent({
 		display: flex;
 		flex-shrink: 0;
 		align-items: center;
-		justify-content: space-between;
 		padding: var(--unit-4);
 		font-weight: bold;
 		border-bottom: 1px solid var(--ui-01);
 		background-color: var(--ui-background-shade);
+		gap: var(--unit-1);
 
 		&-title {
 			display: flex;
@@ -417,7 +402,7 @@ export default defineComponent({
 			display: inline-flex;
 			flex-shrink: 0;
 			padding: 0 6px;
-			font-size: 0.625em;
+			font-size: 0.7em;
 			font-weight: 700;
 			line-height: normal;
 			color: white;
@@ -462,6 +447,20 @@ export default defineComponent({
 			font-style: italic;
 			opacity: 0.7;
 		}
+	}
+
+	&__empty-state {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--unit-8) var(--unit-4);
+		color: var(--text-03);
+		gap: var(--unit-3);
+		opacity: 0.8;
+	}
+
+	&__empty-icon {
+		font-size: 1.5em;
 	}
 }
 
