@@ -1,0 +1,134 @@
+[
+  {
+    "content": "A new quote request (QR-1245) has been submitted by John Doe.",
+    "id": "n001",
+    "origin": "user",
+    "references": {
+      "link": "/quotes/QR-1245",
+      "quoteId": "QR-1245"
+    },
+    "timestamp": "2025-10-22T08:32:00Z",
+    "title": "New Quote Request Received",
+    "toggle": "unread",
+    "type": "info"
+  },
+  {
+    "content": "Quote QR-1239 has been approved and moved to production planning.",
+    "id": "n002",
+    "origin": "system",
+    "references": {
+      "link": "/quotes/QR-1239",
+      "quoteId": "QR-1239"
+    },
+    "timestamp": "2025-10-22T10:15:00Z",
+    "title": "Quote Approved",
+    "toggle": "read",
+    "type": "info"
+  },
+  {
+    "content": "Anna Keller commented: 'Please verify material availability before scheduling.'",
+    "id": "n003",
+    "origin": "user",
+    "references": {
+      "link": "/orders/ORD-4578/comments",
+      "orderId": "ORD-4578"
+    },
+    "timestamp": "2025-10-21T17:42:00Z",
+    "title": "Comment on Order #ORD-4578",
+    "toggle": "unread",
+    "type": "info"
+  },
+  {
+    "content": "Build chamber temperature exceeded threshold on AM-03 during print job JOB-209.",
+    "id": "n004",
+    "origin": "machine",
+    "references": {
+      "jobId": "JOB-209",
+      "link": "/machines/AM-03/logs",
+      "machineId": "AM-03"
+    },
+    "timestamp": "2025-10-22T09:05:00Z",
+    "title": "Machine AM-03 Temperature Alert",
+    "toggle": "unread",
+    "type": "warning"
+  },
+  {
+    "content": "AM-02 completed build job JOB-198 (Order #ORD-4550) successfully.",
+    "id": "n005",
+    "origin": "machine",
+    "references": {
+      "jobId": "JOB-198",
+      "link": "/jobs/JOB-198",
+      "machineId": "AM-02",
+      "orderId": "ORD-4550"
+    },
+    "timestamp": "2025-10-21T23:58:00Z",
+    "title": "Build Job Completed Successfully",
+    "toggle": "read",
+    "type": "info"
+  },
+  {
+    "content": "Material PA12 stock has dropped below reorder threshold. Refill recommended.",
+    "id": "n006",
+    "origin": "system",
+    "references": {
+      "link": "/inventory/materials/PA12",
+      "material": "PA12"
+    },
+    "timestamp": "2025-10-20T14:28:00Z",
+    "title": "Material Stock Running Low",
+    "toggle": "read",
+    "type": "warning"
+  },
+  {
+    "content": "Production of Order #ORD-4600 has been delayed due to maintenance on AM-05.",
+    "id": "n007",
+    "origin": "system",
+    "references": {
+      "link": "/orders/ORD-4600",
+      "orderId": "ORD-4600"
+    },
+    "timestamp": "2025-10-22T11:20:00Z",
+    "title": "Order #ORD-4600 Delayed",
+    "toggle": "unread",
+    "type": "error"
+  },
+  {
+    "content": "Thomas Meyer replied: 'Updated the cost estimate based on new material pricing.'",
+    "id": "n008",
+    "origin": "user",
+    "references": {
+      "link": "/quotes/QR-1245/comments",
+      "quoteId": "QR-1245"
+    },
+    "timestamp": "2025-10-22T09:30:00Z",
+    "title": "New Comment on Quote QR-1245",
+    "toggle": "unread",
+    "type": "info"
+  },
+  {
+    "content": "Scheduled maintenance is due for AM-04. Please schedule downtime before next build.",
+    "id": "n009",
+    "origin": "machine",
+    "references": {
+      "link": "/machines/AM-04",
+      "machineId": "AM-04"
+    },
+    "timestamp": "2025-10-19T08:10:00Z",
+    "title": "Machine AM-04 Maintenance Required",
+    "toggle": "read",
+    "type": "warning"
+  },
+  {
+    "content": "The production queue has been reprioritized based on material availability and deadlines.",
+    "id": "n010",
+    "origin": "system",
+    "references": {
+      "link": "/production/queue"
+    },
+    "timestamp": "2025-10-22T12:02:00Z",
+    "title": "Production Message: Job Queue Updated",
+    "toggle": "unread",
+    "type": "info"
+  }
+]

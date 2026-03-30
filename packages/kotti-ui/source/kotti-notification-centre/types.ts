@@ -1,13 +1,23 @@
 import { z } from 'zod'
 
 export namespace KottiNotificationCentre {
+	export enum Status {
+		READ = 'read',
+		UNREAD = 'unread',
+	}
+
 	export interface Notification {
-		id: string
-		title: string
 		content: string
+		id: string
+		origin: 'user' | 'system' | 'machine'
+		references?: {
+			link?: string
+			[key: string]: unknown
+		}
 		timestamp: string
-		isRead: boolean
-		priority?: 'low' | 'medium' | 'high'
+		title: string
+		toggle: Status
+		type: 'info' | 'warning' | 'error'
 	}
 
 	export const propsSchema = z.object({

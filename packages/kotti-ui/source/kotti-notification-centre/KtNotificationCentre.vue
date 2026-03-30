@@ -1,5 +1,6 @@
 <template>
 	<div class="kt-notification-centre">
+		<!-- Trigger Button -->
 		<div ref="tippyTriggerRef" class="kt-notification-centre__trigger">
 			<KtButton
 				:icon="Yoco.Icon.BELL"
@@ -10,11 +11,47 @@
 				{{ unreadCount }}
 			</div>
 		</div>
+
+		<!-- Dropdown Content -->
 		<div ref="tippyContentRef" class="kt-notification-centre__content">
 			<template v-if="isTippyOpen">
-				<div class="kt-notification-centre__header">Notifications</div>
+				<!-- Header -->
+				<div class="kt-notification-centre__header">
+					<span>Notifications</span>
+					<div v-if="unreadCount > 0" class="kt-notification-centre__header-badge">
+						{{ unreadCount }} New
+					</div>
+				</div>
+
+				<!-- Notification List -->
 				<div class="kt-notification-centre__body">
-					<p>Basic dropdown is working. More data to be injected here.</p>
+					<div
+						v-for="notification in notifications"
+						:key="notification.id"
+						class="kt-notification-centre-item"
+						:class="{ 'kt-notification-centre-item--unread': notification.toggle === KottiNotificationCentre.Status.UNREAD }"
+						@click="toggleRead(notification)"
+					>
+						<div class="kt-notification-centre-item__dot-container">
+							<div
+								v-if="notification.toggle === KottiNotificationCentre.Status.UNREAD"
+								class="kt-notification-centre-item__dot"
+							/>
+						</div>
+						<div class="kt-notification-centre-item__main">
+							<div class="kt-notification-centre-item__header-row">
+								<div class="kt-notification-centre-item__title">
+									{{ notification.title }}
+								</div>
+								<div class="kt-notification-centre-item__timestamp">
+									{{ notification.timestamp }}
+								</div>
+							</div>
+							<div class="kt-notification-centre-item__content">
+								{{ notification.content }}
+							</div>
+						</div>
+					</div>
 				</div>
 			</template>
 		</div>
@@ -32,6 +69,7 @@ import { TIPPY_DISTANCE_OFFSET } from '../constants'
 import { KtButton } from '../kotti-button'
 import { makeProps } from '../make-props'
 
+import mockNotifications from './notifications.json'
 import { KottiNotificationCentre } from './types'
 
 export default defineComponent({
@@ -40,17 +78,26 @@ export default defineComponent({
 	props: makeProps(KottiNotificationCentre.propsSchema),
 	setup() {
 		const isTippyOpen = ref(false)
+		
+		// Refs for Tippy content
 		const tippyContentRef = ref<HTMLDivElement | null>(null)
+		// Ref for Tippy instance
 		const tippyInstanceRef = ref<Instance | null>(null)
+		// Ref for Tippy trigger, which is the bell button
 		const tippyTriggerRef = ref<HTMLDivElement | null>(null)
+		// Notifications data
+		const notifications = ref<KottiNotificationCentre.Notification[]>(
+			mockNotifications as KottiNotificationCentre.Notification[],
+		)
 
+		// Toggle tippy dropdown visibility
 		const setIsTippyOpen = (isOpen: boolean) => {
 			if (!tippyInstanceRef.value) return
 
 			if (isOpen) tippyInstanceRef.value.show()
 			else tippyInstanceRef.value.hide()
 		}
-
+		// set up tippy dropdown
 		useTippy(
 			tippyTriggerRef,
 			computed(() => ({
@@ -72,6 +119,8 @@ export default defineComponent({
 				onShow: () => {
 					isTippyOpen.value = true
 				},
+				// By default Tippy limits width to 350px, we disable that to use our own width
+				maxWidth: 'none',
 				placement: 'bottom-end',
 				theme: 'kt-light-border',
 				trigger: 'manual',
@@ -80,12 +129,27 @@ export default defineComponent({
 
 		return {
 			isTippyOpen,
+			KottiNotificationCentre,
+			notifications,
 			onClickTrigger: () => {
 				setIsTippyOpen(!isTippyOpen.value)
 			},
 			tippyContentRef,
 			tippyTriggerRef,
-			unreadCount: computed(() => 2),
+			// Toggle notification read/unread status
+			toggleRead: (notification: KottiNotificationCentre.Notification) => {
+				notification.toggle =
+					notification.toggle === KottiNotificationCentre.Status.READ
+						? KottiNotificationCentre.Status.UNREAD
+						: KottiNotificationCentre.Status.READ
+			},
+			// Track unread notifications count
+			unreadCount: computed(
+				() =>
+					notifications.value.filter(
+						(n) => n.toggle === KottiNotificationCentre.Status.UNREAD,
+					).length,
+			),
 			Yoco,
 		}
 	},
@@ -112,25 +176,105 @@ export default defineComponent({
 		height: 16px;
 		font-size: 10px;
 		color: white;
-		background-color: var(--interactive-danger);
+		background-color: var(--red-50);
 		border-radius: 50%;
 	}
 
 	&__content {
-		width: 320px;
+		display: flex;
+		flex-direction: column;
+		width: 480px;
 		max-height: 480px;
-		overflow-y: auto;
 		background-color: var(--ui-background);
 	}
 
+	/* Fixed header so it doesn't disappear when scrolling through long lists */
 	&__header {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
 		padding: var(--unit-4);
 		font-weight: bold;
 		border-bottom: 1px solid var(--ui-01);
+
+		&-badge {
+			padding: 2px 8px;
+			margin-left: var(--unit-3);
+			font-size: 11px;
+			color: white;
+			background-color: var(--red-50);
+			border-radius: 10px;
+		}
 	}
 
 	&__body {
-		padding: var(--unit-4);
+		flex: 1;
+		padding: 0;
+		overflow-y: auto;
+	}
+}
+
+/* Individual notification rows with some nice hover effects */
+.kt-notification-centre-item {
+	display: flex;
+	align-items: center;
+	padding: var(--unit-4) var(--unit-4) var(--unit-4) var(--unit-2);
+	cursor: pointer;
+	border-bottom: 1px solid var(--ui-01);
+	/* Subtle transition to make the hover effect feel a bit more premium */
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: var(--ui-background-shade);
+	}
+
+	&__dot-container {
+		display: flex;
+		flex-shrink: 0;
+		justify-content: center;
+		width: 24px;
+	}
+
+	&__dot {
+		width: 8px;
+		height: 8px;
+		background-color: var(--red-50);
+		border-radius: 50%;
+	}
+
+	&__main {
+		flex: 1;
+		min-width: 0;
+	}
+
+	&__header-row {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&--unread {
+		.kt-notification-centre-item__title {
+			font-weight: bold;
+		}
+	}
+
+	&__title {
+		font-size: 0.9em;
+		color: var(--text-01);
+	}
+
+	&__content {
+		margin-top: var(--unit-1);
+		font-size: 0.8em;
+		line-height: 1.4;
+		color: var(--text-02);
+	}
+
+	&__timestamp {
+		margin-left: var(--unit-3);
+		font-size: 0.75em;
+		white-space: nowrap;
+		color: var(--text-03);
 	}
 }
 </style>
