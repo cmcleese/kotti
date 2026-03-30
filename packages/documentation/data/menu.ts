@@ -60,7 +60,10 @@ export type Section = {
 	title: string | null
 }
 
-const makeComponentMenuItem = (component: any): SubsectionPage => ({
+const makeComponentMenuItem = (component: {
+	meta: Kotti.Meta<unknown>
+	name: string
+}): SubsectionPage => ({
 	label: startCase(component.name.replace(/^Kt/, '')),
 	path: kebabCase(component.name.replace(/^Kt/, '')),
 	tags: [

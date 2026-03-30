@@ -3,7 +3,7 @@
 		<ComponentInfo v-bind="{ component }" />
 
 		<p>
-			<code>KtNotificationCentre</code> provides a simple, responsive component that aggregates notifications.
+			<code>KtNotificationCentre</code> provides a notification centre component with AI-powered summarization.
 		</p>
 
 		<h2>Interactive Example</h2>

@@ -17,4 +17,3 @@ pushd dist/cjs
 mv index.js index.cjs
 mv index.js.map index.cjs.map
 mv index.d.ts index.d.cts
-popd
