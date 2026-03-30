@@ -17,6 +17,7 @@
 			<template v-if="isTippyOpen">
 				<!-- Header -->
 				<div class="kt-notification-centre__header">
+					<i class="yoco kt-notification-centre__header-icon" v-text="Yoco.Icon.BELL" />
 					<span>Notifications</span>
 					<div v-if="unreadCount > 0" class="kt-notification-centre__header-badge">
 						{{ unreadCount }} New
@@ -24,7 +25,10 @@
 				</div>
 
 				<!-- Notification List -->
-				<div class="kt-notification-centre__body">
+				 <div
+					ref="tippyBodyRef"
+					class="kt-notification-centre__body"
+				>
 					<div
 						v-for="notification in notifications"
 						:key="notification.id"
@@ -60,7 +64,8 @@
 
 <script lang="ts">
 import type { Instance } from 'tippy.js'
-import { computed, defineComponent, ref } from 'vue'
+import { delegate } from 'tippy.js'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 
 import { useTippy } from '@3yourmind/vue-use-tippy'
 import { Yoco } from '@3yourmind/yoco'
@@ -79,6 +84,8 @@ export default defineComponent({
 	setup() {
 		const isTippyOpen = ref(false)
 		
+		// Ref for the notifications list body, used for Tippy delegation
+		const tippyBodyRef = ref<HTMLDivElement | null>(null)
 		// Refs for Tippy content
 		const tippyContentRef = ref<HTMLDivElement | null>(null)
 		// Ref for Tippy instance
@@ -127,6 +134,21 @@ export default defineComponent({
 			})),
 		)
 
+		onMounted(() => {
+			if (tippyBodyRef.value) {
+				delegate(tippyBodyRef.value, {
+					content: (reference) => {
+						const isUnread = reference.classList.contains(
+							'kt-notification-centre-item--unread',
+						)
+						return isUnread ? 'Mark as Read' : 'Mark as Unread'
+					},
+					target: '.kt-notification-centre-item',
+					theme: 'kt-light-border',
+				})
+			}
+		})
+
 		return {
 			isTippyOpen,
 			KottiNotificationCentre,
@@ -134,6 +156,7 @@ export default defineComponent({
 			onClickTrigger: () => {
 				setIsTippyOpen(!isTippyOpen.value)
 			},
+			tippyBodyRef,
 			tippyContentRef,
 			tippyTriggerRef,
 			// Toggle notification read/unread status
@@ -216,6 +239,12 @@ export default defineComponent({
 		}
 	}
 
+	&__header-icon {
+		margin-right: var(--unit-3);
+		font-size: 1.2em;
+		color: var(--text-01);
+	}
+
 	&__body {
 		flex: 1;
 		padding: 0;
@@ -257,6 +286,7 @@ export default defineComponent({
 
 	&__header-row {
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 	}
 
